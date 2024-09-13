@@ -92,13 +92,31 @@ const QRPayPayComponent = () => {
 
       setPopup(newPopup);
 
-      window.location.href = qrCodeURL;
-      console.log('QR code URL:', qrCodeURL);
+      const pollPopup = setInterval(() => {
+        try {
+          // Check if the popup is closed by the user
+          if (newPopup.closed) {
+            clearInterval(pollPopup);
+            console.log("Popup closed by user");
+          } else if (newPopup.location.href === "http://localhost:3000/success") {
+            // Payment success detected
+            clearInterval(pollPopup);
+            newPopup.close(); // Close the popup
+            console.log("Payment successful, popup closed");
+          } else if (newPopup.location.href === "http://localhost:3000/cancel") {
+            // Payment canceled/expired detected
+            clearInterval(pollPopup);
+            newPopup.close(); // Close the popup
+            console.log("Payment canceled or expired, redirecting to cancel page");
+          }
+        } catch (e) {
+          // Cross-origin errors will be thrown while the popup navigates between domains,
+          // this catch block is here to suppress those errors.
+        }
+      }, 100);
     } catch (err) {
-      setError('Failed to generate QR code. Please try again.');
-      console.log('Error:', err);
-     
-      
+      setError("Failed to generate QR code. Please try again.");
+      console.log("Error:", err);
     }
     setLoading(false);
   };
