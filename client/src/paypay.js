@@ -92,23 +92,13 @@ const QRPayPayComponent = () => {
 
       setPopup(newPopup);
 
-      const pollPopup = setInterval(() => {
-        try {
-          if (newPopup.closed) {
-            clearInterval(pollPopup);
-            console.log("Popup closed");
-          } else if (
-            newPopup.location.href === "http://localhost:3000/success"
-          ) {
-            clearInterval(pollPopup);
-            newPopup.close(); 
-            console.log("Payment successful, popup closed");
-          }
-        } catch (e) {}
-      }, 2000);
+      window.location.href = qrCodeURL;
+      console.log('QR code URL:', qrCodeURL);
     } catch (err) {
-      setError("Failed to generate QR code. Please try again.");
-      console.log("Error:", err);
+      setError('Failed to generate QR code. Please try again.');
+      console.log('Error:', err);
+     
+      
     }
     setLoading(false);
   };
