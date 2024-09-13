@@ -25,11 +25,13 @@ const QRPayPayComponent = () => {
 
       setQrCodeUrl(qrCodeURL);
 
-      window.open(qrCodeURL);
+      window.location.href = qrCodeURL;
       console.log('QR code URL:', qrCodeURL);
     } catch (err) {
       setError('Failed to generate QR code. Please try again.');
       console.log('Error:', err);
+     
+      
     }
 
     setLoading(false);
