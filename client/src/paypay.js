@@ -15,7 +15,7 @@ const QRPayPayComponent = () => {
       amount: 100, // Example amount in JPY
       currency: 'JPY',
       orderDescription: 'Purchase for demo',
-      redirectUrl: 'http:/localhost:3000/success',
+      redirectUrl: 'https://paypay-integration.vercel.app/success',
       userAgent: navigator.userAgent, 
     };
 
