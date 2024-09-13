@@ -52,6 +52,7 @@
 
 
 
+
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -74,16 +75,15 @@ const QRPayPayComponent = () => {
     };
 
     try {
-      const response = await axios.post(
-        "https://paypay-integration-backend.vercel.app/create-qrcode",
-        payload
-      );
+      const response = await axios.post("https://paypay-integration-backend.vercel.app/create-qrcode", payload);
       const qrCodeURL = response.data.qrCodeURL;
-      console.log("response",response)
-      const popupWidth = 600;
+      console.log("response", response);
+
+      const popupWidth = 780;
       const popupHeight = 700;
       const left = window.innerWidth / 2 - popupWidth / 2;
       const top = window.innerHeight / 2 - popupHeight / 2;
+
       const newPopup = window.open(
         qrCodeURL,
         "PayPay",
@@ -94,25 +94,29 @@ const QRPayPayComponent = () => {
 
       const pollPopup = setInterval(() => {
         try {
-          // Check if the popup is closed by the user
           if (newPopup.closed) {
             clearInterval(pollPopup);
             console.log("Popup closed by user");
-          } else if (newPopup.location.href === "https://paypay-integration.vercel.app/success") {
-            // Payment success detected
-            clearInterval(pollPopup);
-            newPopup.close(); // Close the popup
-            console.log("Payment successful, popup closed");
-          } 
+          } else {
+            // Check if the URL is the success URL
+            const popupUrl = newPopup.location.href;
+            if (popupUrl.startsWith("https://paypay-integration.vercel.app/success")) {
+              clearInterval(pollPopup);
+              newPopup.close();
+              window.location.href = "https://paypay-integration.vercel.app/success"; 
+              console.log("Payment successful, popup closed and redirect initiated");
+            }
+          }
         } catch (e) {
-          // Cross-origin errors will be thrown while the popup navigates between domains,
-          // this catch block is here to suppress those errors.
+          // Handle the cross-origin error when trying to access popup location
+          console.error("Error accessing popup location:", e);
         }
       }, 100);
     } catch (err) {
       setError("Failed to generate QR code. Please try again.");
       console.log("Error:", err);
     }
+
     setLoading(false);
   };
 
@@ -129,5 +133,4 @@ const QRPayPayComponent = () => {
 };
 
 export default QRPayPayComponent;
-
 
