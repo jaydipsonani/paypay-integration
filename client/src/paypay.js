@@ -75,7 +75,7 @@ const QRPayPayComponent = () => {
 
     try {
       const response = await axios.post(
-        "https://paypay-integration-backend.vercel.app//create-qrcode",
+        "https://paypay-integration-backend.vercel.app/create-qrcode",
         payload
       );
       const qrCodeURL = response.data.qrCodeURL;
