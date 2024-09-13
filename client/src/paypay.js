@@ -20,7 +20,7 @@ const QRPayPayComponent = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/create-qrcode', payload);
+      const response = await axios.post('https://paypay-integration-backend.vercel.app/create-qrcode', payload);
       const qrCodeURL = response.data.qrCodeURL;
 
       setQrCodeUrl(qrCodeURL);
