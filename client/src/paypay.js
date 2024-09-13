@@ -69,13 +69,13 @@ const QRPayPayComponent = () => {
       amount: 50,
       currency: "JPY",
       orderDescription: "Purchase for demo",
-      redirectUrl: "http://localhost:3000/success",
+      redirectUrl: "paypay-integration.vercel.app/success",
       userAgent: navigator.userAgent,
     };
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/create-qrcode",
+        "https://paypay-integration-backend.vercel.app//create-qrcode",
         payload
       );
       const qrCodeURL = response.data.qrCodeURL;
@@ -98,17 +98,12 @@ const QRPayPayComponent = () => {
           if (newPopup.closed) {
             clearInterval(pollPopup);
             console.log("Popup closed by user");
-          } else if (newPopup.location.href === "http://localhost:3000/success") {
+          } else if (newPopup.location.href === "paypay-integration.vercel.app/success") {
             // Payment success detected
             clearInterval(pollPopup);
             newPopup.close(); // Close the popup
             console.log("Payment successful, popup closed");
-          } else if (newPopup.location.href === "http://localhost:3000/cancel") {
-            // Payment canceled/expired detected
-            clearInterval(pollPopup);
-            newPopup.close(); // Close the popup
-            console.log("Payment canceled or expired, redirecting to cancel page");
-          }
+          } 
         } catch (e) {
           // Cross-origin errors will be thrown while the popup navigates between domains,
           // this catch block is here to suppress those errors.
