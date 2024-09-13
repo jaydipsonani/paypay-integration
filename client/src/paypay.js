@@ -69,7 +69,7 @@ const QRPayPayComponent = () => {
       amount: 50,
       currency: "JPY",
       orderDescription: "Purchase for demo",
-      redirectUrl: "paypay-integration.vercel.app/success",
+      redirectUrl: "https://paypay-integration.vercel.app/success",
       userAgent: navigator.userAgent,
     };
 
@@ -98,7 +98,7 @@ const QRPayPayComponent = () => {
           if (newPopup.closed) {
             clearInterval(pollPopup);
             console.log("Popup closed by user");
-          } else if (newPopup.location.href === "paypay-integration.vercel.app/success") {
+          } else if (newPopup.location.href === "https://paypay-integration.vercel.app/success") {
             // Payment success detected
             clearInterval(pollPopup);
             newPopup.close(); // Close the popup
