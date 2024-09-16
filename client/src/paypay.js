@@ -109,7 +109,7 @@ const QRPayPayComponent = () => {
           }
         } catch (e) {
           // Handle the cross-origin error when trying to access popup location
-          console.error("Error accessing popup location:", e);
+          // console.error("Error accessing popup location:", e);
         }
       }, 100);
     } catch (err) {
